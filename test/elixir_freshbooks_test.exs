@@ -86,7 +86,7 @@ defmodule ElixirFreshbooksTest do
     request_assert "invoice.create", "invoice.create",
       fn() ->
         ElixirFreshbooks.Invoice.create(
-          113, "sent", "note1\nnote2\nnote3",
+          113, "sent", ["note1", "note2", "note3"],
           [ElixirFreshbooks.InvoiceLine.new("name", "desc", 1, 444)]
         )
       end,
@@ -110,8 +110,34 @@ defmodule ElixirFreshbooksTest do
               unit_cost: 1
             }
           ],
-          notes: "note1\nnote2\nnote3",
+          notes: ["note1", "note2", "note3"],
           status: "sent"
+        } === result
+      end
+  end
+
+  test "can create payment" do
+    request_assert "payment.create", "payment.create",
+      fn() ->
+        ElixirFreshbooks.Payment.create(
+          554, 150, "Credit Card", ["note1", "note2", "note3"]
+        )
+      end,
+      fn(body, msgs) ->
+        assert_fields body, msgs, [
+          {"invoice_id", 554},
+          {"type", "Credit Card"},
+          {"amount", 150},
+          {"notes", "note1\nnote2\nnote3"}
+        ]
+      end,
+      fn(result) ->
+        assert %ElixirFreshbooks.Payment{
+          id: 889,
+          invoice_id: 554,
+          notes: ["note1", "note2", "note3"],
+          type: "Credit Card",
+          amount: 150
         } === result
       end
   end

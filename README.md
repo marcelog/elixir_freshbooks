@@ -70,7 +70,7 @@ alias ElixirFreshbooks.InvoiceLine, as: L
 ```elixir
   # Create a new invoice for the client_id 4422, add one line with the given
   # name, description, unit_cost, and quantity.
-  > I.create 4422, "sent", "note1\nnote2\nnote3", [
+  > I.create 4422, "sent", ["note1", "note2", "note3"], [
     L.new("Line Name", "Line Description", 2, 4)
   ]
   %ElixirFreshbooks.Invoice{
@@ -85,10 +85,32 @@ alias ElixirFreshbooks.InvoiceLine, as: L
         unit_cost: 2
       }
     ],
-    notes: "note1\nnote2\nnote3",
+    notes: ["note1", "note2", "note3"],
     status: "sent"
   }
 ```
+
+## Payments
+
+Payments are used via the [Payment](https://github.com/marcelog/elixir_freshbooks/blob/master/lib/elixir_freshbooks/Payment.ex) module.
+
+```elixir
+alias ElixirFreshbooks.Payment, as: P
+```
+
+### Creating
+```elixir
+  > P.create 889, 10.50, "Credit Card", ["note1", "note2", "note3"]
+  ]
+  %ElixirFreshbooks.Payment{
+    invoice_id: 889,
+    amount: 10.50,
+    id: 778,
+    notes: ["note1", "note2", "note3"],
+    type: "Credit Card"
+  }
+```
+
 ----
 
 # License

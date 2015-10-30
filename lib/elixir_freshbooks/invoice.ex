@@ -25,7 +25,7 @@ defmodule ElixirFreshbooks.Invoice do
     id: nil,
     client_id: nil,
     status: nil,
-    notes: [],
+    notes: nil,
     lines: []
 
   @type t :: %ElixirFreshbooks.Invoice{}
@@ -35,7 +35,7 @@ defmodule ElixirFreshbooks.Invoice do
 
   See: http://www.freshbooks.com/developers/docs/invoices#invoice.create
   """
-  @spec create(Integer.t, String.t, String.t, [Line.t]) :: t | no_return
+  @spec create(Integer.t, String.t, [String.t], [Line.t]) :: t | no_return
   def create(client_id, status, notes, lines) do
     invoice = %ElixirFreshbooks.Invoice{
       client_id: client_id,
@@ -54,7 +54,7 @@ defmodule ElixirFreshbooks.Invoice do
     [
       client_id: invoice.client_id,
       status: invoice.status,
-      notes: invoice.notes,
+      notes: Enum.join(invoice.notes, "\n"),
       lines: Enum.map(invoice.lines, fn(l) -> {:line, Line.to_xml(l)} end)
     ]
   end
