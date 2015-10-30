@@ -31,7 +31,7 @@ defmodule ElixirFreshbooks.Invoice do
   @type t :: %ElixirFreshbooks.Invoice{}
 
   @doc """
-  Creates a client.
+  Creates an invoice.
 
   See: http://www.freshbooks.com/developers/docs/invoices#invoice.create
   """
