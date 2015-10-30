@@ -77,10 +77,11 @@ defmodule ElixirFreshbooks.Test.Util do
 
       defp assert_fields(xml, msgs, fields) do
         Enum.reduce fields, msgs, fn({k, v}, acc) ->
-          if xml_value(xml, "//#{k}") === [v] do
-              acc
-          else
-            ["wrong #{k}"|acc]
+          case xml_value(xml, "//#{k}") do
+            [v] -> acc
+            value ->
+              Logger.error "Asserting field: #{inspect k} vs. #{inspect value}"
+              ["wrong #{k}"|acc]
           end
         end
       end

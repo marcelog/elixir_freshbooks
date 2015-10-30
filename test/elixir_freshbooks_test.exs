@@ -82,6 +82,39 @@ defmodule ElixirFreshbooksTest do
       end
   end
 
+  test "can create invoice" do
+    request_assert "invoice.create", "invoice.create",
+      fn() ->
+        ElixirFreshbooks.Invoice.create(
+          113, "sent", "note1\nnote2\nnote3",
+          [ElixirFreshbooks.InvoiceLine.new("name", "desc", 1, 444)]
+        )
+      end,
+      fn(body, msgs) ->
+        assert_fields body, msgs, [
+          {"client_id", 113},
+          {"status", "sent"},
+          {"notes", "note1\nnote2\nnote3"}
+        ]
+      end,
+      fn(result) ->
+        assert %ElixirFreshbooks.Invoice{
+          client_id: 113,
+          id: 554,
+          lines: [
+            %ElixirFreshbooks.InvoiceLine{
+              description: "desc",
+              name: "name",
+              quantity: 444,
+              type: "item",
+              unit_cost: 1
+            }
+          ],
+          notes: "note1\nnote2\nnote3",
+          status: "sent"
+        } === result
+      end
+  end
 
   defp request_assert(
     file, request_type, request_fun, server_asserts_fun, client_asserts_fun

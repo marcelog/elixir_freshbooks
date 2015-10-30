@@ -37,6 +37,8 @@ In your freshbooks account you should find both values.
 
 # Documentation
 
+## Clients
+
 Clients are used via the [Client](https://github.com/marcelog/elixir_freshbooks/blob/master/lib/elixir_freshbooks/client.ex) module.
 
 ```elixir
@@ -55,6 +57,38 @@ alias ElixirFreshbooks.Client, as: C
   }
 ```
 
+## Invoices
+
+Invoices are used via the [Invoice](https://github.com/marcelog/elixir_freshbooks/blob/master/lib/elixir_freshbooks/invoice.ex) module.
+
+```elixir
+alias ElixirFreshbooks.Invoice, as: I
+alias ElixirFreshbooks.InvoiceLine, as: L
+```
+
+### Creating
+```elixir
+  # Create a new invoice for the client_id 4422, add one line with the given
+  # name, description, unit_cost, and quantity.
+  > I.create 4422, "sent", "note1\nnote2\nnote3", [
+    L.new("Line Name", "Line Description", 2, 4)
+  ]
+  %ElixirFreshbooks.Invoice{
+    client_id: 4422,
+    id: 9932,
+    lines: [
+      %ElixirFreshbooks.InvoiceLine{
+        description: "Line Description",
+        name: "Line Name",
+        quantity: 4,
+        type: "item",
+        unit_cost: 2
+      }
+    ],
+    notes: "note1\nnote2\nnote3",
+    status: "sent"
+  }
+```
 ----
 
 # License
