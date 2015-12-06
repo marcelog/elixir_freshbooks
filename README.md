@@ -101,7 +101,6 @@ alias ElixirFreshbooks.Payment, as: P
 ### Creating
 ```elixir
   > P.create 889, 10.50, "Credit Card", ["note1", "note2", "note3"]
-  ]
   %ElixirFreshbooks.Payment{
     invoice_id: 889,
     amount: 10.50,
@@ -111,6 +110,29 @@ alias ElixirFreshbooks.Payment, as: P
   }
 ```
 
+## Expenses
+
+Expenses are used via the [Expense](https://github.com/marcelog/elixir_freshbooks/blob/master/lib/elixir_freshbooks/Expense.ex) module.
+
+```elixir
+alias ElixirFreshbooks.Expense, as: E
+```
+
+### Creating
+```elixir
+  > E.create 1, 1994955, 1.23, "test vendor", ["note1", "note2"]
+  %ElixirFreshbooks.Expense{
+    amount: 1.23,
+    category_id: 1994955,
+    client_id: nil,
+    date: "2015-12-06",
+    id: 320343,
+    notes: ["note1", "note2"],
+    project_id: nil,
+    staff_id: 1,
+    vendor: "test vendor"
+  }
+```
 ----
 
 # License

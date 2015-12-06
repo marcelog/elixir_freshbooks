@@ -142,6 +142,36 @@ defmodule ElixirFreshbooksTest do
       end
   end
 
+  test "can create expense" do
+    request_assert "expense.create", "expense.create",
+      fn() ->
+        ElixirFreshbooks.Expense.create(
+          1, 1994955, 1.23, "test vendor", ["note 1", "note 2"], "2015-11-12"
+        )
+      end,
+      fn(body, msgs) ->
+        assert_fields body, msgs, [
+          {"amount", 1.23},
+          {"vendor", "test vendor"},
+          {"category_id", 1994955},
+          {"notes", "note 1\nnote 2"},
+          {"date", "2015-11-12"},
+          {"staff_id", 1},
+        ]
+      end,
+      fn(result) ->
+        assert %ElixirFreshbooks.Expense{
+          id: 320343,
+          amount: 1.23,
+          vendor: "test vendor",
+          category_id: 1994955,
+          notes: ["note 1", "note 2"],
+          date: "2015-11-12",
+          staff_id: 1
+        } === result
+      end
+  end
+
   defp request_assert(
     file, request_type, request_fun, server_asserts_fun, client_asserts_fun
   ) do
