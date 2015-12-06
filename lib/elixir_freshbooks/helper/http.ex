@@ -24,7 +24,7 @@ defmodule ElixirFreshbooks.Helper.Http do
   @typep token :: String.t
   @typep header :: {char_list, char_list}
   @typep headers :: [header]
-  @typep status_code :: Integer
+  @typep status_code :: pos_integer
   @typep method :: :get | :post | :delete | :put | :head | :options
   @typep uri :: String.t
   @typep body :: Keyword.t

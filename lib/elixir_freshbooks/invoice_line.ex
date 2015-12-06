@@ -31,7 +31,7 @@ defmodule ElixirFreshbooks.InvoiceLine do
   @doc """
   Creates a line structure.
   """
-  @spec new(String.t, String.t, Float.t, Integer.t, String.t) :: t
+  @spec new(String.t, String.t, float, pos_integer, String.t) :: t
   def new(name, description, unit_cost, quantity, type \\ "item") do
     %ElixirFreshbooks.InvoiceLine{
       name: name,

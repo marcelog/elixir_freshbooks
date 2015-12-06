@@ -35,7 +35,7 @@ defmodule ElixirFreshbooks.Invoice do
 
   See: http://www.freshbooks.com/developers/docs/invoices#invoice.create
   """
-  @spec create(Integer.t, String.t, [String.t], [Line.t]) :: t | no_return
+  @spec create(pos_integer, String.t, [String.t], [Line.t]) :: t | no_return
   def create(client_id, status, notes, lines) do
     invoice = %ElixirFreshbooks.Invoice{
       client_id: client_id,

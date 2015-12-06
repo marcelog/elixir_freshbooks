@@ -35,7 +35,7 @@ defmodule ElixirFreshbooks.Payment do
 
   See: http://www.freshbooks.com/developers/docs/payments#payment.create
   """
-  @spec create(Integer.t, Float.t, String.t, [String.t]) :: t | no_return
+  @spec create(pos_integer, float, String.t, [String.t]) :: t | no_return
   def create(invoice_id, amount, type, notes) do
     payment = %ElixirFreshbooks.Payment{
       invoice_id: invoice_id,
