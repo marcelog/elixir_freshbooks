@@ -92,7 +92,7 @@ alias ElixirFreshbooks.InvoiceLine, as: L
 
 ## Payments
 
-Payments are used via the [Payment](https://github.com/marcelog/elixir_freshbooks/blob/master/lib/elixir_freshbooks/Payment.ex) module.
+Payments are used via the [Payment](https://github.com/marcelog/elixir_freshbooks/blob/master/lib/elixir_freshbooks/payment.ex) module.
 
 ```elixir
 alias ElixirFreshbooks.Payment, as: P
@@ -112,7 +112,7 @@ alias ElixirFreshbooks.Payment, as: P
 
 ## Expenses
 
-Expenses are used via the [Expense](https://github.com/marcelog/elixir_freshbooks/blob/master/lib/elixir_freshbooks/Expense.ex) module.
+Expenses are used via the [Expense](https://github.com/marcelog/elixir_freshbooks/blob/master/lib/elixir_freshbooks/expense.ex) module.
 
 ```elixir
 alias ElixirFreshbooks.Expense, as: E
