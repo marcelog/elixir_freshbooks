@@ -82,6 +82,36 @@ defmodule ElixirFreshbooksTest do
       end
   end
 
+  test "can create client with user and pass" do
+    request_assert "client.create", "client.create",
+      fn() ->
+        ElixirFreshbooks.Client.create(
+          "first", "last", "org", "user@host.com", "user", "pass"
+        )
+      end,
+      fn(body, msgs) ->
+        assert_fields body, msgs, [
+          {"first_name", "first"},
+          {"last_name", "last"},
+          {"organization", "org"},
+          {"email", "user@host.com"},
+          {"username", "user"},
+          {"password", "pass"}
+        ]
+      end,
+      fn(result) ->
+        assert %ElixirFreshbooks.Client{
+          id: 4422,
+          first_name: "first",
+          last_name: "last",
+          organization: "org",
+          email: "user@host.com",
+          username: "user",
+          password: "pass"
+        } === result
+      end
+  end
+
   test "can create invoice" do
     request_assert "invoice.create", "invoice.create",
       fn() ->

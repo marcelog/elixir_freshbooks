@@ -25,7 +25,9 @@ defmodule ElixirFreshbooks.Client do
     first_name: nil,
     last_name: nil,
     organization: nil,
-    email: nil
+    email: nil,
+    username: nil,
+    password: nil
 
   @type t :: %ElixirFreshbooks.Client{}
 
@@ -34,12 +36,18 @@ defmodule ElixirFreshbooks.Client do
 
   See: http://www.freshbooks.com/developers/docs/clients#client.create
   """
-  @spec create(String.t, String.t, String.t, String.t) :: t | no_return
-  def create(first_name, last_name, organization, email) do
+  @spec create(
+    String.t, String.t, String.t, String.t, String.t, String.t
+  ) :: t | no_return
+  def create(
+    first_name, last_name, organization, email, username \\ nil, password \\ nil
+  ) do
     client = %ElixirFreshbooks.Client{
       first_name: first_name,
       last_name: last_name,
       organization: organization,
+      username: username,
+      password: password,
       email: email
     }
     doc = Main.req "client.create", [
@@ -54,7 +62,9 @@ defmodule ElixirFreshbooks.Client do
       first_name: client.first_name,
       last_name: client.last_name,
       organization: client.organization,
-      email: client.email
+      email: client.email,
+      username: client.username,
+      password: client.password
     ]
   end
 end

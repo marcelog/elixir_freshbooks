@@ -6,7 +6,7 @@ defmodule ElixirFreshbooks.Mixfile do
       app: :elixir_freshbooks,
       name: "elixir_freshbooks",
       source_url: "https://github.com/marcelog/elixir_freshbooks",
-      version: "0.0.2",
+      version: "0.0.3",
       elixir: ">= 1.0.0",
       description: description,
       package: package,
