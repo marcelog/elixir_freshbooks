@@ -57,8 +57,16 @@ defmodule ElixirFreshbooks.Client do
     %ElixirFreshbooks.Client{client | id: id}
   end
 
+  @spec update(t) :: :ok | no_return
+  def update(client) do
+    Main.req "client.update", [
+      client: to_xml(client)
+    ]
+    :ok
+  end
+
   defp to_xml(client) do
-    [
+    c = [
       first_name: client.first_name,
       last_name: client.last_name,
       organization: client.organization,
@@ -66,5 +74,10 @@ defmodule ElixirFreshbooks.Client do
       username: client.username,
       password: client.password
     ]
+    if is_nil client.id do
+      c
+    else
+      [{:client_id, client.id}|c]
+    end
   end
 end

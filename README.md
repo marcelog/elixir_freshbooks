@@ -47,14 +47,27 @@ alias ElixirFreshbooks.Client, as: C
 
 ### Creating
 ```elixir
-  > C.create "first_name", "last_name", "organization", "user@host.com"
+  > C.create(
+    "first_name", "last_name", "organization", "user@host.com",
+    "username", "password"
+  )
   %ElixirFreshbooks.Client{
     email: "user@host.com",
     first_name: "first_name",
     id: 4422,
     last_name: "last_name",
-    organization: "organization"
+    organization: "organization",
+    username: "username",
+    password: "password"
   }
+```
+
+Both `username` and `password` are optional arguments.
+
+### Updating
+```elixir
+  > C.update %ElixirFreshbooks.Client{id: 4422, password: "new_password"}
+  :ok
 ```
 
 ## Invoices

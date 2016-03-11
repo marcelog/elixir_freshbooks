@@ -58,6 +58,28 @@ defmodule ElixirFreshbooksTest do
     stop_server name
   end
 
+  test "can update client" do
+    request_assert "client.update", "client.update",
+      fn() ->
+        ElixirFreshbooks.Client.update %ElixirFreshbooks.Client{
+          id: 4422,
+          first_name: "first",
+          last_name: "last",
+          organization: "org",
+          email: "user@host.com"
+        }
+      end,
+      fn(body, msgs) ->
+        assert_fields body, msgs, [
+          {"first_name", "first"},
+          {"last_name", "last"},
+          {"organization", "org"},
+          {"email", "user@host.com"}
+        ]
+      end,
+      fn(result) -> assert :ok === result end
+  end
+
   test "can create client" do
     request_assert "client.create", "client.create",
       fn() ->
