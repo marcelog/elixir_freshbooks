@@ -46,6 +46,7 @@ defmodule ElixirFreshbooks.InvoiceLine do
   @doc """
   Adds a tax.
   """
+  @spec tax(t, String.t, float) :: t
   def tax(line, name, percent) do
     %{line | taxes: [%{name: name, percent: percent}|line.taxes]}
   end
