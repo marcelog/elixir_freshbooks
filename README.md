@@ -103,6 +103,16 @@ alias ElixirFreshbooks.InvoiceLine, as: L
   }
 ```
 
+### Adding taxes
+```elixir
+  # Taxes are in percent only, not absolute values.
+  > item = L.new("Line Name", "Line Description", 2, 4) |>
+    L.tax("tax name", 7) |>
+    L.tax("another tax", 3)
+  > I.create 4422, "sent", ["note1", "note2", "note3"], [item]
+
+```
+
 ## Payments
 
 Payments are used via the [Payment](https://github.com/marcelog/elixir_freshbooks/blob/master/lib/elixir_freshbooks/payment.ex) module.

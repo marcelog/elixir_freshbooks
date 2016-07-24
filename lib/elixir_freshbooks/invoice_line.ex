@@ -24,7 +24,8 @@ defmodule ElixirFreshbooks.InvoiceLine do
     description: nil,
     unit_cost: nil,
     quantity: nil,
-    type: nil
+    type: nil,
+    taxes: []
 
   @type t :: %ElixirFreshbooks.InvoiceLine{}
 
@@ -43,16 +44,32 @@ defmodule ElixirFreshbooks.InvoiceLine do
   end
 
   @doc """
+  Adds a tax.
+  """
+  def tax(line, name, percent) do
+    %{line | taxes: [%{name: name, percent: percent}|line.taxes]}
+  end
+
+  @doc """
   Returns an XML structure for the given invoice line.
   """
   @spec to_xml(t) :: Keyword.t
   def to_xml(line) do
-    [
+    result = [
       name: line.name,
       description: line.description,
       unit_cost: line.unit_cost,
       quantity: line.quantity,
       type: line.type
     ]
+    {_, result} = Enum.reverse(line.taxes) |>
+      Enum.reduce({1, result}, fn(tax, {n, result}) ->
+      {n + 1, [
+        {String.to_atom("tax#{n}_name"), tax.name},
+        {String.to_atom("tax#{n}_percent"), tax.percent}
+        |result
+      ]}
+    end)
+    result
   end
 end

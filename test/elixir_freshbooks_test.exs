@@ -144,7 +144,7 @@ defmodule ElixirFreshbooksTest do
       end,
       fn(body, msgs) ->
         assert_fields body, msgs, [
-          {"client_id", 113},
+          {"client_id", "113"},
           {"status", "sent"},
           {"notes", "note1\nnote2\nnote3"}
         ]
@@ -177,9 +177,9 @@ defmodule ElixirFreshbooksTest do
       end,
       fn(body, msgs) ->
         assert_fields body, msgs, [
-          {"invoice_id", 554},
+          {"invoice_id", "554"},
           {"type", "Credit Card"},
-          {"amount", 150},
+          {"amount", "150"},
           {"notes", "note1\nnote2\nnote3"}
         ]
       end,
@@ -203,12 +203,12 @@ defmodule ElixirFreshbooksTest do
       end,
       fn(body, msgs) ->
         assert_fields body, msgs, [
-          {"amount", 1.23},
+          {"amount", "1.23"},
           {"vendor", "test vendor"},
-          {"category_id", 1994955},
+          {"category_id", "1994955"},
           {"notes", "note 1\nnote 2"},
           {"date", "2015-11-12"},
-          {"staff_id", 1},
+          {"staff_id", "1"},
         ]
       end,
       fn(result) ->
@@ -220,6 +220,51 @@ defmodule ElixirFreshbooksTest do
           notes: ["note 1", "note 2"],
           date: "2015-11-12",
           staff_id: 1
+        } === result
+      end
+  end
+
+  test "can create invoice with taxes" do
+    request_assert "invoice.create", "invoice.create",
+      fn() ->
+        line = ElixirFreshbooks.InvoiceLine.new("name", "desc", 1, 444) |>
+          ElixirFreshbooks.InvoiceLine.tax("1st tax", 1) |>
+          ElixirFreshbooks.InvoiceLine.tax("2nd tax", 2)
+
+        ElixirFreshbooks.Invoice.create(
+          113, "sent", ["note1", "note2", "note3"], [line]
+        )
+      end,
+      fn(body, msgs) ->
+        assert_fields body, msgs, [
+          {"client_id", "113"},
+          {"status", "sent"},
+          {"notes", "note1\nnote2\nnote3"},
+          {"tax1_name", "1st tax"},
+          {"tax1_percent", "1"},
+          {"tax2_name", "2nd tax"},
+          {"tax2_percent", "2"}
+        ]
+      end,
+      fn(result) ->
+        assert %ElixirFreshbooks.Invoice{
+          client_id: 113,
+          id: 554,
+          lines: [
+            %ElixirFreshbooks.InvoiceLine{
+              description: "desc",
+              name: "name",
+              quantity: 444,
+              type: "item",
+              unit_cost: 1,
+              taxes: [
+                %{name: "2nd tax", percent: 2},
+                %{name: "1st tax", percent: 1}
+              ]
+            }
+          ],
+          notes: ["note1", "note2", "note3"],
+          status: "sent"
         } === result
       end
   end
