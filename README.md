@@ -15,7 +15,7 @@ To use it in your Mix projects, first add it as a dependency:
 
 ```elixir
 def deps do
-  [{:elixir_freshbooks, "~> 0.0.5"}]
+  [{:elixir_freshbooks, "~> 0.0.7"}]
 end
 ```
 Then run mix deps.get to install it.
