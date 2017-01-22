@@ -6,11 +6,11 @@ defmodule ElixirFreshbooks.Mixfile do
       app: :elixir_freshbooks,
       name: "elixir_freshbooks",
       source_url: "https://github.com/marcelog/elixir_freshbooks",
-      version: "0.0.7",
+      version: "0.0.10",
       elixir: ">= 1.0.0",
-      description: description,
-      package: package,
-      deps: deps,
+      description: description(),
+      package: package(),
+      deps: deps(),
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod
     ]
@@ -46,12 +46,12 @@ Elixir client for FreshBooks.
   defp deps do
     [
       {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.3"},
-      {:earmark, "~> 0.2.1", only: :dev},
-      {:ex_doc, "~> 0.12.0", only: :dev},
-      {:coverex, "~> 1.4.9", only: :test},
-      {:exmerl, github: "pwoolcoc/exmerl", ref: "26ce73d6694d21208ffbaa1e87abd9c5407a0409"},
-      {:xml_builder, "~> 0.0.8"},
-      {:servito, github: "marcelog/servito", only: :test, tag: "v0.0.5"}
+      {:earmark, "~> 1.0.3", only: :dev},
+      {:ex_doc, "~> 0.14.5", only: :dev},
+      {:coverex, "~> 1.4.12", only: :test},
+      {:exmerl, github: "portatext/exmerl", branch: "fixing_warnings_elixir_1_4_0"},
+      {:xml_builder, "~> 0.0.9"},
+      {:servito, github: "marcelog/servito", only: :test, tag: "v0.0.10"}
     ]
   end
 end

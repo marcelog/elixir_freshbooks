@@ -26,7 +26,7 @@ defmodule ElixirFreshbooks do
   @spec req(String.t, Keyword.t) :: Record | no_return
   def req(requestType, parameters) do
     body = [{:request, %{method: requestType}, parameters}]
-    case Http.req token, :post, uri, body do
+    case Http.req token(), :post, uri(), body do
       {:ok, 200, _headers, body} ->
         {doc, _} = Exmerl.from_string body
         [response] = xml_find doc, "//response"
