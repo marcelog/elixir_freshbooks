@@ -34,7 +34,7 @@ Elixir client for FreshBooks.
 
   defp package do
     [
-      files: ["lib", "priv", "mix.exs", "README*", "LICENSE*"],
+      files: ["lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Marcelo Gornstein"],
       licenses: ["Apache 2.0"],
       links: %{
