@@ -28,8 +28,8 @@ defmodule ElixirFreshbooks do
     body = [{:request, %{method: requestType}, parameters}]
     case Http.req token(), :post, uri(), body do
       {:ok, 200, _headers, body} ->
-        {doc, _} = Exmerl.from_string body
-        [response] = xml_find doc, "//response"
+        doc = SweetXml.parse body
+        [response] = xml_find doc, ~x"//response"l
         status = xml_attribute response, "status"
         if status !== "ok" do
           code = xml_value doc, "//code"

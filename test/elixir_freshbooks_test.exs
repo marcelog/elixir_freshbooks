@@ -279,7 +279,7 @@ defmodule ElixirFreshbooksTest do
       #  {:error, error} -> ["invalid schema: #{inspect error}"|msgs]
       #  :ok -> msgs
       #end
-      msgs = case xml_find(body, "//request") do
+      msgs = case xml_find(body, ~x"//request"l) do
         [r] -> case xml_attribute r, "method" do
           ^request_type -> msgs
           _ -> ["wrong request method"|msgs]

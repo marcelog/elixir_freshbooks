@@ -1,4 +1,5 @@
 defmodule ElixirFreshbooks.Helper.XML do
+
   @moduledoc """
 
   XML helper macros.
@@ -21,20 +22,9 @@ defmodule ElixirFreshbooks.Helper.XML do
   defmacro __using__(_opts) do
     quote do
       import ElixirFreshbooks.Helper.XML
+      import SweetXml
       require Record
       require Logger
-      Record.defrecord(
-        :xmlText,
-        Record.extract(:xmlText, from_lib: "xmerl/include/xmerl.hrl")
-      )
-      Record.defrecord(
-        :xmlElement,
-        Record.extract(:xmlElement, from_lib: "xmerl/include/xmerl.hrl")
-      )
-      Record.defrecord(
-        :xmlAttribute,
-        Record.extract(:xmlAttribute, from_lib: "xmerl/include/xmerl.hrl")
-      )
     end
   end
 
@@ -59,34 +49,25 @@ defmodule ElixirFreshbooks.Helper.XML do
 
   defmacro xml_find(doc, xpath) do
     quote [location: :keep] do
-      Exmerl.XPath.find unquote(doc), unquote(xpath)
+      SweetXml.xpath unquote(doc), unquote(xpath)
     end
   end
 
   defmacro xml_value(doc, element) do
     quote [location: :keep] do
-      elements = xml_find unquote(doc), "#{unquote(element)}/text()"
-      for e <- elements, do: to_string xmlText(e, :value)
+      SweetXml.xpath unquote(doc), ~x"#{unquote(element)}/text()"ls
     end
   end
 
   defmacro xml_one_value_int(doc, element) do
     quote [location: :keep] do
-      case xml_one_value(unquote(doc), unquote(element)) do
-        nil -> nil
-        code ->
-          {code, ""} = Integer.parse code
-          code
-      end
+      SweetXml.xpath unquote(doc), ~x"#{unquote(element)}/text()"i
     end
   end
 
   defmacro xml_one_value(doc, element) do
     quote [location: :keep] do
-      case xml_find unquote(doc), "#{unquote(element)}/text()" do
-        [] -> nil
-        [e] -> to_string xmlText(e, :value)
-      end
+      SweetXml.xpath unquote(doc), ~x"#{unquote(element)}/text()"s
     end
   end
 end
